@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from services.repayment_service import process_repayment
+from app.services.repayment_service import process_repayment
 
 router = APIRouter()
 

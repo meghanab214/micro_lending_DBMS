@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from backend.app.routes.investor_routes import router as investor_router
-from routes.repayment_routes import router as repayment_router
+from app.routes.investor_routes import router as investor_router
+from app.routes.repayment_routes import router as repayment_router
 
 app = FastAPI()
 

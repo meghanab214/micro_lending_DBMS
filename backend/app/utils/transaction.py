@@ -1,4 +1,4 @@
-from backend.app.config.db import get_connection
+from app.config.db import get_connection
 
 class Transaction:
     def __enter__(self):

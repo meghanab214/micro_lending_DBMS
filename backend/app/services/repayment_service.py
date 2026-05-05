@@ -1,8 +1,8 @@
-from utils.transaction import Transaction
-from models.repayment import create_repayment
-from models.investment import get_investments_by_loan
-from models.account import get_account_by_user_id, update_balance
-from models.ledger import add_ledger_entry
+from app.utils.transaction import Transaction
+from app.models.repayment import create_repayment
+from app.models.investment import get_investments_by_loan
+from app.models.account import get_account_by_user_id, update_balance
+from app.models.ledger import add_ledger_entry
 
 def process_repayment(loan_id, amount):
     with Transaction() as cur:

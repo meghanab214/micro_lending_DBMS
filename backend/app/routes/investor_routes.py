@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from backend.app.services.investment_service import fund_loan
+from app.services.investment_service import fund_loan
 
 router = APIRouter()
 

@@ -1,8 +1,8 @@
-from backend.app.utils.transaction import Transaction
-from backend.app.models.account import get_account_by_user, update_balance
-from backend.app.models.investment import create_investment
-from backend.app.models.loan import get_loan, update_funded_amount
-from backend.app.models.ledger import add_ledger_entry
+from app.utils.transaction import Transaction
+from app.models.account import get_account_by_user, update_balance
+from app.models.investment import create_investment
+from app.models.loan import get_loan, update_funded_amount
+from app.models.ledger import add_ledger_entry
 
 def fund_loan(investor_id, loan_id, amount):
     with Transaction() as cur:
