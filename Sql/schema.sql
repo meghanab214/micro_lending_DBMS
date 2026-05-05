@@ -56,3 +56,8 @@ CREATE TABLE emi_schedule (
     total_due NUMERIC,
     status TEXT DEFAULT 'pending'
 );
+
+-- new thing 
+ALTER TABLE emi_schedule
+ADD COLUMN paid_date TIMESTAMP,
+ADD COLUMN penalty_applied BOOLEAN DEFAULT FALSE;
