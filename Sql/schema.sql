@@ -43,3 +43,16 @@ CREATE TABLE ledger_entries (
     reference_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- new table to be added
+
+CREATE TABLE emi_schedule (
+    id SERIAL PRIMARY KEY,
+    loan_id INT REFERENCES loans(id),
+    installment_number INT,
+    due_date DATE,
+    principal_due NUMERIC,
+    interest_due NUMERIC,
+    total_due NUMERIC,
+    status TEXT DEFAULT 'pending'
+);
