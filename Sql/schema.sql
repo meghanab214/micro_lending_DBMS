@@ -1,0 +1,45 @@
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    role TEXT CHECK (role IN ('borrower', 'investor', 'admin')) NOT NULL
+);
+
+CREATE TABLE accounts (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    balance NUMERIC DEFAULT 0
+);
+
+CREATE TABLE loans (
+    id SERIAL PRIMARY KEY,
+    borrower_id INT REFERENCES users(id),
+    amount NUMERIC NOT NULL,
+    funded_amount NUMERIC DEFAULT 0,
+    interest_rate NUMERIC,
+    term_months INT,
+    status TEXT CHECK (status IN ('pending', 'funded', 'active', 'closed')) DEFAULT 'pending'
+);
+
+CREATE TABLE investments (
+    id SERIAL PRIMARY KEY,
+    loan_id INT REFERENCES loans(id),
+    investor_id INT REFERENCES users(id),
+    amount_invested NUMERIC,
+    ownership_ratio NUMERIC
+);
+
+CREATE TABLE repayments (
+    id SERIAL PRIMARY KEY,
+    loan_id INT REFERENCES loans(id),
+    amount_paid NUMERIC,
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE ledger_entries (
+    id SERIAL PRIMARY KEY,
+    account_id INT REFERENCES accounts(id),
+    amount NUMERIC,
+    type TEXT,
+    reference_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
