@@ -61,3 +61,12 @@ CREATE TABLE emi_schedule (
 ALTER TABLE emi_schedule
 ADD COLUMN paid_date TIMESTAMP,
 ADD COLUMN penalty_applied BOOLEAN DEFAULT FALSE;
+
+CREATE TABLE secondary_market_listings (
+    id SERIAL PRIMARY KEY,
+    investment_id INT REFERENCES investments(id),
+    seller_id INT REFERENCES users(id),
+    price NUMERIC NOT NULL,
+    status TEXT DEFAULT 'open',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
