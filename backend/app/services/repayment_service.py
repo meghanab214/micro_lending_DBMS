@@ -4,9 +4,12 @@ from app.models.repayment import create_repayment
 from app.models.investment import get_investments_by_loan
 from app.models.account import get_account_by_user_id, update_balance
 from app.models.ledger import add_ledger_entry
+from decimal import Decimal
+    
 
 def process_repayment(loan_id, amount):
     with Transaction() as cur:
+        amount = Decimal(str(amount))
 
         # 1. Get EMI
         emi = get_next_emi(cur, loan_id)
