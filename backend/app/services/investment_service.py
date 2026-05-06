@@ -3,18 +3,27 @@ from app.models.account import get_account_by_user, update_balance
 from app.models.investment import create_investment
 from app.models.loan import get_loan, update_funded_amount
 from app.models.ledger import add_ledger_entry
-from decimal import Decimal
-
+from decimal import Decimal, InvalidOperation
+from app.models import loan
 
 def fund_loan(investor_id, loan_id, amount):
     with Transaction() as cur:
-        amount = Decimal(str(amount))
+
+        # Safe conversion
+        try:
+            amount = Decimal(str(amount))
+        except (InvalidOperation, TypeError):
+            raise Exception("Invalid amount format")
+
         # 1. Get investor account
         account = get_account_by_user(cur, investor_id)
         if not account:
             raise Exception("Account not found")
 
         account_id, balance = account
+
+        if balance is None:
+            raise Exception("Invalid account balance")
 
         if balance < amount:
             raise Exception("Insufficient balance")
@@ -24,9 +33,13 @@ def fund_loan(investor_id, loan_id, amount):
         if not loan:
             raise Exception("Loan not found")
 
-        total_amount, funded_amount = Decimal(str(loan))
+        total_amount, funded_amount = loan
+
+        total_amount = Decimal(total_amount)
+        funded_amount = Decimal(funded_amount)
 
         remaining = total_amount - funded_amount
+
         if amount > remaining:
             raise Exception("Overfunding not allowed")
 
@@ -34,7 +47,7 @@ def fund_loan(investor_id, loan_id, amount):
         update_balance(cur, account_id, -amount)
 
         # 4. Calculate ownership
-        ratio = amount / Decimal(total_amount)
+        ratio = amount / total_amount
 
         # 5. Create investment
         create_investment(cur, loan_id, investor_id, amount, ratio)
