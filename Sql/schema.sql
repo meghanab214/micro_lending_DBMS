@@ -70,3 +70,5 @@ CREATE TABLE secondary_market_listings (
     status TEXT DEFAULT 'open',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE loans ADD COLUMN credit_score NUMERIC;
