@@ -5,7 +5,8 @@ from app.models.investment import get_investments_by_loan
 from app.models.account import get_account_by_user_id, update_balance
 from app.models.ledger import add_ledger_entry
 from decimal import Decimal
-    
+from app.services.redis_queue_service import add_default_check_job
+
 
 def process_repayment(loan_id, amount):
     with Transaction() as cur:
@@ -94,6 +95,8 @@ def process_repayment(loan_id, amount):
 
         print("Repayment distributed successfully")
 
+        
+        add_default_check_job(loan_id)
 
 # 🔹 Get next unpaid EMI
 def get_next_emi(cur, loan_id):
