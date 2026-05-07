@@ -72,3 +72,23 @@ CREATE TABLE secondary_market_listings (
 );
 
 ALTER TABLE loans ADD COLUMN credit_score NUMERIC;
+
+-- yet to add 
+
+CREATE TABLE kyc (
+    id SERIAL PRIMARY KEY,
+    user_id INT,
+    document_type TEXT,
+    document_number TEXT,
+    status TEXT DEFAULT 'pending'
+);
+
+CREATE TABLE collections (
+    id SERIAL PRIMARY KEY,
+    loan_id INT REFERENCES loans(id),
+    action TEXT,
+    status TEXT DEFAULT 'pending',
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

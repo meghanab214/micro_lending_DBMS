@@ -1,5 +1,5 @@
 def get_loan(cur, loan_id):
-    cur.execute("SELECT amount, funded_amount FROM loans WHERE id = %s", (loan_id,))
+    cur.execute("SELECT amount, funded_amount FROM loans WHERE id = %s FOR UPDATE", (loan_id,))
     return cur.fetchone()
 
 def update_funded_amount(cur, loan_id, amount):

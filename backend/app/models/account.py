@@ -10,7 +10,7 @@ def update_balance(cur, account_id, amount):
     
 def get_account_by_user_id(cur, user_id):
     cur.execute(
-        "SELECT id FROM accounts WHERE user_id = %s",
+        "SELECT id FROM accounts WHERE user_id = %s FOR UPDATE",
         (user_id,)
     )
     return cur.fetchone()

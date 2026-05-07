@@ -4,10 +4,13 @@ from app.models.investment import create_investment
 from app.models.loan import get_loan, update_funded_amount
 from app.models.ledger import add_ledger_entry
 from decimal import Decimal, InvalidOperation
-from app.models import loan
+from app.services.kyc_service import check_kyc
 
 def fund_loan(investor_id, loan_id, amount):
+
     with Transaction() as cur:
+
+        check_kyc(cur, investor_id)
 
         # Safe conversion
         try:
