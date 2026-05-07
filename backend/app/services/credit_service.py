@@ -1,4 +1,4 @@
-from backend.app.models.mongo_model import get_business_data
+from app.models.mongo_model import get_business_data
 
 def calculate_credit_score(data):
     score = (

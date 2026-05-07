@@ -96,7 +96,7 @@ def process_repayment(loan_id, amount):
         print("Repayment distributed successfully")
 
         
-        add_default_check_job(loan_id)
+    add_default_check_job(loan_id)
 
 # 🔹 Get next unpaid EMI
 def get_next_emi(cur, loan_id):

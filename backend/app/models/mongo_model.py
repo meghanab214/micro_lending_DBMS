@@ -1,4 +1,4 @@
-from config.mongo import business_collection
+from app.config.mongo import business_collection
 
 def insert_business_data(data):
     return business_collection.insert_one(data)
