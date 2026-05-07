@@ -73,8 +73,6 @@ CREATE TABLE secondary_market_listings (
 
 ALTER TABLE loans ADD COLUMN credit_score NUMERIC;
 
--- yet to add 
-
 CREATE TABLE kyc (
     id SERIAL PRIMARY KEY,
     user_id INT,
