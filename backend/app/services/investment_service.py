@@ -58,6 +58,16 @@ def fund_loan(investor_id, loan_id, amount):
         # 6. Update loan funded amount
         update_funded_amount(cur, loan_id, amount)
 
+        # 7. Update loan status based on funding progress
+        new_funded_amount = funded_amount + amount
+        if funded_amount == 0 and new_funded_amount > 0:
+            # First funding: set to active
+            cur.execute("UPDATE loans SET status = 'active' WHERE id = %s", (loan_id,))
+        
+        if new_funded_amount >= total_amount:
+            # Fully funded: set to funded (allowed by schema)
+            cur.execute("UPDATE loans SET status = 'funded' WHERE id = %s", (loan_id,))
+
         # 7. Ledger entry
         add_ledger_entry(cur, account_id, -amount, "loan_funding", loan_id)
 

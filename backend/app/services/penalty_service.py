@@ -14,7 +14,7 @@ def get_overdue_emis(cur):
     for emi in emis:
         emi_id, loan_id, total_due, due_date = emi
 
-        if datetime.now() > due_date:
+        if datetime.now().date() > due_date:
             overdue.append(emi)
 
     return overdue

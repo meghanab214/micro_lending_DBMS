@@ -19,6 +19,7 @@ def list_loans():
             """
             SELECT id, borrower_id, amount, funded_amount, interest_rate, term_months, status, credit_score
             FROM loans
+            WHERE status IN ('pending', 'active') AND funded_amount < amount
             """
         )
         rows = cur.fetchall()
@@ -62,3 +63,23 @@ def get_loan_details(loan_id: int):
             "credit_score": float(r[7]) if r[7] is not None else None,
         }
         return {"status": "success", "data": loan}
+
+@router.get("/fix-loan-statuses")
+def fix_loan_statuses():
+    """Fix all existing loans - update their status based on funding progress"""
+    with Transaction() as cur:
+        # Set loans to 'funded' if fully funded
+        cur.execute("""
+            UPDATE loans 
+            SET status = 'funded' 
+            WHERE status <> 'closed' AND funded_amount >= amount AND funded_amount > 0
+        """)
+        
+        # Set loans to 'active' if partially funded
+        cur.execute("""
+            UPDATE loans 
+            SET status = 'active' 
+            WHERE status <> 'closed' AND funded_amount > 0 AND funded_amount < amount
+        """)
+        
+        return {"status": "success", "message": "Loan statuses fixed"}

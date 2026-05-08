@@ -2,10 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/marketplace": "pages/marketplace.js",
-  "/portfolio": "pages/portfolio.js",
-  "/repayment": "pages/repayment.js",
-  "/kyc": "pages/kyc.js",
   "/collections": "pages/collections.js",
-  "/analytics": "pages/analytics.js"
+  "/kyc": "pages/kyc.js",
+  "/analytics": "pages/analytics.js",
+  "/": "pages/index.js"
 }

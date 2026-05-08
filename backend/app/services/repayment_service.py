@@ -21,7 +21,7 @@ def process_repayment(loan_id, amount):
         emi_id, principal_due, interest_due, total_due, due_date, penalty_applied = emi
 
         # 2. Check late + penalty
-        is_late = datetime.now() > due_date
+        is_late = datetime.now().date() > due_date
 
         penalty = 0
         if is_late and not penalty_applied:
@@ -48,9 +48,9 @@ def process_repayment(loan_id, amount):
         # 6. Calculate shares
         for investor_id, invested_amt, ratio in investments:
 
-            interest_share = round(interest_due * ratio, 2)
-            principal_share = round(principal_due * ratio, 2)
-            penalty_share = round(penalty * ratio, 2)
+            interest_share = round(interest_due * Decimal(str(ratio)), 2)
+            principal_share = round(principal_due * Decimal(str(ratio)), 2)
+            penalty_share = round(penalty * Decimal(str(ratio)), 2)
 
             total_share = round(
                 interest_share + principal_share + penalty_share, 2
@@ -96,7 +96,7 @@ def process_repayment(loan_id, amount):
         print("Repayment distributed successfully")
 
         
-    add_default_check_job(loan_id)
+    # add_default_check_job(loan_id)  # Commented out - Redis not available
 
 # 🔹 Get next unpaid EMI
 def get_next_emi(cur, loan_id):
@@ -113,7 +113,7 @@ def get_next_emi(cur, loan_id):
 
 # 🔹 Apply penalty
 def apply_penalty(cur, emi_id, loan_id, amount):
-    penalty = round(amount * 0.02, 2)
+    penalty = round(amount * Decimal('0.02'), 2)
 
     cur.execute("""
         UPDATE emi_schedule

@@ -13,6 +13,7 @@ export default function DocumentsPage() {
   const [form, setForm] = useState(initialForm);
   const [analytics, setAnalytics] = useState({ total_loans: 0, defaults: 0, total_funded: 0 });
   const [loan, setLoan] = useState(null);
+  const [error, setError] = useState('');
 
   const handleChange = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
 
@@ -23,10 +24,19 @@ export default function DocumentsPage() {
   useEffect(() => {
     if (!form.loan_id) {
       setLoan(null);
+      setError('');
       return;
     }
 
-    fetchLoanDetails(form.loan_id).then((res) => setLoan(res.data || null)).catch(() => setLoan(null));
+    fetchLoanDetails(form.loan_id)
+      .then((res) => {
+        setLoan(res.data || null);
+        setError('');
+      })
+      .catch((err) => {
+        setLoan(null);
+        setError(err.message || 'Failed to fetch loan details');
+      });
   }, [form.loan_id]);
 
   return (
@@ -55,6 +65,7 @@ export default function DocumentsPage() {
         </section>
 
         <aside className="space-y-4">
+          {error && <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">{error}</div>}
           <StatCard label="Loan credit score" value={formatNumber(loan?.credit_score || 0)} detail="Fetched from the selected loan" accent="sky" />
           <StatCard label="Loan status" value={loan?.status || 'N/A'} detail="Loaded from the backend" accent="emerald" />
         </aside>

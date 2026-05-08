@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.routes.investor_routes import router as investor_router
 from app.routes.repayment_routes import router as repayment_router
 from app.routes.kyc_routes import router as kyc_router
@@ -8,6 +9,14 @@ from app.routes.collections_routes import router as collections_router
 from app.routes.analytics_routes import router as analytics_router
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(investor_router)
 app.include_router(repayment_router)

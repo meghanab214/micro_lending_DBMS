@@ -8,16 +8,24 @@ import { fetchLoanDetails } from '@/services/api';
 export default function CreditPage() {
   const [loanId, setLoanId] = useState('');
   const [loan, setLoan] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (!loanId) {
       setLoan(null);
+      setError('');
       return;
     }
 
     fetchLoanDetails(loanId)
-      .then((res) => setLoan(res.data || null))
-      .catch(() => setLoan(null));
+      .then((res) => {
+        setLoan(res.data || null);
+        setError('');
+      })
+      .catch((err) => {
+        setLoan(null);
+        setError(err.message || 'Failed to fetch loan details');
+      });
   }, [loanId]);
 
   return (
@@ -40,6 +48,7 @@ export default function CreditPage() {
         </section>
 
         <aside className="space-y-4">
+          {error && <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">{error}</div>}
           <StatCard label="Credit score" value={formatNumber(loan?.credit_score || 0)} detail="Fetched from the loans table" accent="emerald" />
           <StatCard label="Loan status" value={loan?.status || 'N/A'} detail={`Loan #${loanId || 'n/a'}`} accent="amber" />
         </aside>
