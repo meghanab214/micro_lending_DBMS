@@ -37,16 +37,6 @@
       "static/chunks/main.js",
       "static/chunks/pages/kyc.js"
     ],
-    "/marketplace": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/marketplace.js"
-    ],
-    "/portfolio": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/portfolio.js"
-    ],
     "/repayment": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
