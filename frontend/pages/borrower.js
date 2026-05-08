@@ -8,8 +8,7 @@ const initialForm = {
   borrower_id: '',
   amount: '',
   interest_rate: '',
-  term_months: '',
-  business_id: ''
+  term_months: ''
 };
 
 export default function BorrowerPage() {
@@ -48,12 +47,11 @@ export default function BorrowerPage() {
           <p className="text-xs uppercase tracking-[0.25em] text-sky-300/70">Borrower application portal</p>
           <h1 className="mt-3 text-3xl font-bold text-white text-display">Create a micro-loan request</h1>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
-            Submit the borrower, loan, and business identifiers. The backend route accepts query parameters on POST, so the form posts values directly through the API helper.
+            Submit the borrower and loan values that match the `loans` table in the schema.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-6 grid gap-4 sm:grid-cols-2">
             <FormField label="Borrower ID" id="borrower_id" type="number" value={form.borrower_id} onChange={handleChange('borrower_id')} />
-            <FormField label="Business ID" id="business_id" type="number" value={form.business_id} onChange={handleChange('business_id')} />
             <FormField label="Amount" id="amount" type="number" step="0.01" min="0" value={form.amount} onChange={handleChange('amount')} />
             <FormField label="Interest Rate" id="interest_rate" type="number" step="0.01" min="0" value={form.interest_rate} onChange={handleChange('interest_rate')} />
             <FormField label="Term Months" id="term_months" type="number" min="1" value={form.term_months} onChange={handleChange('term_months')} />
@@ -73,19 +71,6 @@ export default function BorrowerPage() {
           {error ? <div className="mt-5 rounded-2xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">{error}</div> : null}
           {response ? <div className="mt-5 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">Loan created successfully. Loan ID: {response.loan_id ?? 'n/a'}</div> : null}
         </section>
-
-        <aside className="space-y-4">
-          <StatCard label="Endpoint" value="/create-loan" detail="Uses query params via POST" accent="emerald" />
-          <StatCard label="Required fields" value="5" detail="borrower_id, amount, interest_rate, term_months, business_id" accent="amber" />
-          <div className="rounded-[2rem] border border-slate-800/80 bg-slate-950/70 p-6 shadow-glow">
-            <h2 className="text-xl font-semibold text-white text-display">Tips</h2>
-            <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-400">
-              <li>• Use numeric IDs that already exist in the backend database.</li>
-              <li>• Interest rate should be entered as a number like 12.5.</li>
-              <li>• Loan creation may trigger downstream scoring and EMI schedule generation in the backend.</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     </>
   );

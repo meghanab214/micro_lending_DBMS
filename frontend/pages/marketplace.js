@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import FormField from '@/components/FormField';
 import InvestmentCard from '@/components/InvestmentCard';
 import StatCard from '@/components/StatCard';
 import { buyInvestment } from '@/services/api';
-import { sampleListings } from '@/utils/mockData';
+import { fetchListings } from '@/services/api';
 
 const initialForm = {
   buyer_id: '',
@@ -16,6 +16,11 @@ export default function MarketplacePage() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [listings, setListings] = useState([]);
+
+  useEffect(() => {
+    fetchListings().then((res) => setListings(res.data || [])).catch(() => {});
+  }, []);
 
   const handleChange = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
 
@@ -46,7 +51,7 @@ export default function MarketplacePage() {
         <section className="rounded-[2rem] border border-slate-800/80 bg-slate-950/70 p-6 shadow-glow">
           <p className="text-xs uppercase tracking-[0.25em] text-sky-300/70">Secondary market</p>
           <h1 className="mt-3 text-3xl font-bold text-white text-display">Buy listed investment portions</h1>
-          <p className="mt-2 text-sm leading-6 text-slate-400">The UI posts to <span className="text-sky-300">POST /buy-investment</span>.</p>
+          <p className="mt-2 text-sm leading-6 text-slate-400">Use this form to buy a listed investment portion.</p>
 
           <form onSubmit={handleBuy} className="mt-6 grid gap-4">
             <FormField label="Buyer ID" id="buyer_id" type="number" min="1" value={form.buyer_id} onChange={handleChange('buyer_id')} />
@@ -66,13 +71,11 @@ export default function MarketplacePage() {
 
         <section>
           <div className="mb-4 grid gap-4 md:grid-cols-3">
-            <StatCard label="Listings" value={sampleListings.length} detail="Sample sell offers" accent="sky" />
-            <StatCard label="Endpoint" value="/buy-investment" detail="Query-based POST request" accent="emerald" />
-            <StatCard label="Market type" value="Secondary" detail="Purchase existing loan portions" accent="amber" />
-          </div>
+            <StatCard label="Listings" value={listings.length} detail="Live sell offers" accent="sky" />
+            </div>
 
           <div className="grid gap-4 lg:grid-cols-2">
-            {sampleListings.map((listing) => (
+            {listings.map((listing) => (
               <InvestmentCard
                 key={listing.id}
                 investment={listing}

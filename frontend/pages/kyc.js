@@ -98,17 +98,6 @@ export default function KycPage() {
           {verifyMessage ? <div className="mt-4 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">{verifyMessage}</div> : null}
           {error ? <div className="mt-4 rounded-2xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">{error}</div> : null}
         </section>
-
-        <aside className="space-y-4">
-          <StatCard label="API routes" value="2" detail="POST /submit-kyc and POST /verify-kyc" accent="sky" />
-          <StatCard label="Payload style" value="Query params" detail="Matches the current FastAPI route signatures" accent="emerald" />
-          <div className="rounded-[2rem] border border-slate-800/80 bg-slate-950/70 p-6 shadow-glow">
-            <h2 className="text-xl font-semibold text-white text-display">Compliance note</h2>
-            <p className="mt-3 text-sm leading-6 text-slate-400">
-              This page supports the compliance workflow required by the platform and can be extended later with document uploads or backend status polling.
-            </p>
-          </div>
-        </aside>
       </div>
     </>
   );

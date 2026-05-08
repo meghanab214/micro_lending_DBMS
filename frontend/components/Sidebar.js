@@ -22,9 +22,8 @@ export default function Sidebar() {
     <aside className="hidden w-72 shrink-0 border-r border-slate-800/70 bg-slate-950/70 px-5 py-6 lg:block">
       <div className="rounded-3xl border border-slate-800/80 bg-white/5 p-5 shadow-glow">
         <p className="text-xs uppercase tracking-[0.3em] text-sky-300/70">Navigation</p>
-        <h2 className="mt-2 text-2xl font-bold text-white text-display">Micro Lending</h2>
-        <p className="mt-2 text-sm text-slate-400">Borrower, investor, repayment, and compliance workflows in one place.</p>
-      </div>
+        <h2 className="mt-2 text-2xl font-bold text-white text-display">Micro-Loan Lending</h2>
+        </div>
 
       <nav className="mt-6 space-y-2">
         {navItems.map((item) => {

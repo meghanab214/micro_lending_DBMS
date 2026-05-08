@@ -2,10 +2,10 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/borrower": "pages/borrower.js",
+  "/marketplace": "pages/marketplace.js",
+  "/portfolio": "pages/portfolio.js",
+  "/repayment": "pages/repayment.js",
   "/kyc": "pages/kyc.js",
-  "/documents": "pages/documents.js",
-  "/credit": "pages/credit.js",
-  "/investor": "pages/investor.js"
+  "/collections": "pages/collections.js",
+  "/analytics": "pages/analytics.js"
 }

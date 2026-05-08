@@ -17,6 +17,7 @@ const request = async (path, params = {}, options = {}) => {
   const response = await fetch(`${BASE_URL}${path}${toQueryString(params)}`, {
     method: options.method || 'POST',
     headers: {
+      'Content-Type': 'application/json',
       ...(options.headers || {})
     },
     body: options.body ? JSON.stringify(options.body) : undefined
@@ -39,3 +40,13 @@ export const verifyKyc = (data) => request('/verify-kyc', data);
 export const buyInvestment = (data) => request('/buy-investment', data);
 
 export const apiBaseUrl = BASE_URL;
+
+export const get = (path, params = {}) => request(path, params, { method: 'GET' });
+
+export const fetchLoans = () => get('/loans');
+export const fetchLoanDetails = (loan_id) => get(`/loans/${loan_id}`);
+export const fetchInvestments = (params) => get('/investments', params);
+export const fetchListings = () => get('/listings');
+export const fetchEmiSchedule = (loan_id) => get(`/emi/${loan_id}`);
+export const fetchCollections = () => get('/collections');
+export const fetchAnalytics = () => get('/analytics/summary');

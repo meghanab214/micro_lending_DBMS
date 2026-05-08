@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import FormField from '@/components/FormField';
 import StatCard from '@/components/StatCard';
 import { repayLoan } from '@/services/api';
 import { formatCurrency } from '@/utils/format';
-import { sampleRepayments } from '@/utils/mockData';
+import { fetchEmiSchedule } from '@/services/api';
 
 const initialForm = {
   loan_id: '',
@@ -16,8 +16,15 @@ export default function RepaymentPage() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [schedule, setSchedule] = useState([]);
 
   const handleChange = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
+
+  useEffect(() => {
+    const loanId = form.loan_id;
+    if (!loanId) return;
+    fetchEmiSchedule(loanId).then((res) => setSchedule(res.data || [])).catch(() => setSchedule([]));
+  }, [form.loan_id]);
 
   const handlePay = async (event) => {
     event.preventDefault();
@@ -36,7 +43,7 @@ export default function RepaymentPage() {
     }
   };
 
-  const totalDue = sampleRepayments.reduce((sum, emi) => sum + emi.total, 0);
+  const totalDue = schedule.reduce((sum, emi) => sum + (emi.total_due || 0), 0);
 
   return (
     <>
@@ -69,28 +76,22 @@ export default function RepaymentPage() {
         </section>
 
         <section>
-          <div className="mb-4 grid gap-4 md:grid-cols-3">
-            <StatCard label="Upcoming EMI total" value={formatCurrency(totalDue)} detail="Combined from the sample schedule" accent="sky" />
-            <StatCard label="Schedule entries" value={sampleRepayments.length} detail="Displayed below for quick review" accent="emerald" />
-            <StatCard label="Endpoint" value="/repay" detail="Backend repayment action" accent="amber" />
-          </div>
-
           <div className="space-y-4">
-            {sampleRepayments.map((emi) => (
-              <div key={emi.installment} className="rounded-3xl border border-slate-800/80 bg-slate-950/70 p-5 shadow-glow">
+            {schedule.map((emi) => (
+              <div key={emi.installment_number} className="rounded-3xl border border-slate-800/80 bg-slate-950/70 p-5 shadow-glow">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-sm text-slate-400">Installment {emi.installment}</p>
-                    <h3 className="mt-1 text-xl font-semibold text-white text-display">Due {emi.dueDate}</h3>
+                    <p className="text-sm text-slate-400">Installment {emi.installment_number}</p>
+                    <h3 className="mt-1 text-xl font-semibold text-white text-display">Due {emi.due_date}</h3>
                   </div>
                   <span className="rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1 text-xs font-semibold capitalize text-sky-200">
                     {emi.status}
                   </span>
                 </div>
                 <div className="mt-4 grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
-                  <div className="rounded-2xl bg-white/5 p-3"><p className="text-xs text-slate-400">Principal</p><p className="mt-1 font-semibold text-white">{formatCurrency(emi.principal)}</p></div>
-                  <div className="rounded-2xl bg-white/5 p-3"><p className="text-xs text-slate-400">Interest</p><p className="mt-1 font-semibold text-white">{formatCurrency(emi.interest)}</p></div>
-                  <div className="rounded-2xl bg-white/5 p-3"><p className="text-xs text-slate-400">Total</p><p className="mt-1 font-semibold text-white">{formatCurrency(emi.total)}</p></div>
+                  <div className="rounded-2xl bg-white/5 p-3"><p className="text-xs text-slate-400">Principal</p><p className="mt-1 font-semibold text-white">{formatCurrency(emi.principal_due || 0)}</p></div>
+                  <div className="rounded-2xl bg-white/5 p-3"><p className="text-xs text-slate-400">Interest</p><p className="mt-1 font-semibold text-white">{formatCurrency(emi.interest_due || 0)}</p></div>
+                  <div className="rounded-2xl bg-white/5 p-3"><p className="text-xs text-slate-400">Total</p><p className="mt-1 font-semibold text-white">{formatCurrency(emi.total_due || 0)}</p></div>
                 </div>
               </div>
             ))}

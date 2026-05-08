@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import FormField from '@/components/FormField';
 import LoanCard from '@/components/LoanCard';
 import StatCard from '@/components/StatCard';
 import { fundLoan } from '@/services/api';
-import { sampleLoans } from '@/utils/mockData';
+import { fetchLoans } from '@/services/api';
 
 const initialFunding = {
   investor_id: '',
@@ -17,6 +17,13 @@ export default function InvestorPage() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [loans, setLoans] = useState([]);
+
+  useEffect(() => {
+    fetchLoans()
+      .then((res) => setLoans(res.data || []))
+      .catch(() => {});
+  }, []);
 
   const handleChange = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
 
@@ -47,9 +54,7 @@ export default function InvestorPage() {
         <section className="rounded-[2rem] border border-slate-800/80 bg-slate-950/70 p-6 shadow-glow">
           <p className="text-xs uppercase tracking-[0.25em] text-sky-300/70">Investor marketplace</p>
           <h1 className="mt-3 text-3xl font-bold text-white text-display">Fund open loan requests</h1>
-          <p className="mt-2 text-sm leading-6 text-slate-400">
-            The form targets <span className="text-sky-300">POST /fund-loan</span> using query parameters.
-          </p>
+          <p className="mt-2 text-sm leading-6 text-slate-400">Use this form to fund a loan from the investor account.</p>
 
           <form onSubmit={handleFund} className="mt-6 grid gap-4">
             <FormField label="Investor ID" id="investor_id" type="number" min="1" value={form.investor_id} onChange={handleChange('investor_id')} />
@@ -70,13 +75,11 @@ export default function InvestorPage() {
 
         <section>
           <div className="mb-4 grid gap-4 md:grid-cols-3">
-            <StatCard label="Open loans" value={sampleLoans.length} detail="Sample loan list shown below" accent="sky" />
+            <StatCard label="Open loans" value={loans.length} detail="Total Loans" accent="sky" />
             <StatCard label="Min ticket" value="$5,000" detail="Suggested starting amount for funding" accent="emerald" />
-            <StatCard label="Action" value="/fund-loan" detail="Backend endpoint wired from this page" accent="amber" />
-          </div>
-
+            </div>
           <div className="grid gap-4 lg:grid-cols-2">
-            {sampleLoans.map((loan) => (
+            {loans.map((loan) => (
               <LoanCard key={loan.id} loan={loan} onFund={() => setForm({ investor_id: form.investor_id, loan_id: String(loan.id), amount: '' })} />
             ))}
           </div>
@@ -85,3 +88,4 @@ export default function InvestorPage() {
     </>
   );
 }
+
