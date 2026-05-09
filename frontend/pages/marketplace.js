@@ -51,7 +51,6 @@ export default function MarketplacePage() {
         <section className="rounded-[2rem] border border-slate-800/80 bg-slate-950/70 p-6 shadow-glow">
           <p className="text-xs uppercase tracking-[0.25em] text-sky-300/70">Secondary market</p>
           <h1 className="mt-3 text-3xl font-bold text-white text-display">Buy listed investment portions</h1>
-          <p className="mt-2 text-sm leading-6 text-slate-400">Use this form to buy a listed investment portion.</p>
 
           <form onSubmit={handleBuy} className="mt-6 grid gap-4">
             <FormField label="Buyer ID" id="buyer_id" type="number" min="1" value={form.buyer_id} onChange={handleChange('buyer_id')} />

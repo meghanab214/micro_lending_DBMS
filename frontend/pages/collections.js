@@ -22,10 +22,9 @@ export default function CollectionsPage() {
 
       <div className="space-y-6">
         <div className="grid gap-4 md:grid-cols-3">
-          <StatCard label="Collection cases" value={collections.length} detail="Live rows from backend" accent="sky" />
-          <StatCard label="Pending work" value={pendingCases} detail="Cases not yet completed" accent="amber" />
-          <StatCard label="Workflow" value="Default handling" detail="Supports escalation and status updates" accent="emerald" />
-        </div>
+          <StatCard label="Collection cases" value={collections.length} accent="sky" />
+          <StatCard label="Pending work" value={pendingCases}  accent="amber" />
+         </div>
 
         <section className="rounded-[2rem] border border-slate-800/80 bg-slate-950/70 p-6 shadow-glow">
           <p className="text-xs uppercase tracking-[0.25em] text-sky-300/70">Collections dashboard</p>

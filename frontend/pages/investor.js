@@ -5,6 +5,7 @@ import LoanCard from '@/components/LoanCard';
 import StatCard from '@/components/StatCard';
 import { fundLoan } from '@/services/api';
 import { fetchLoans } from '@/services/api';
+import { formatCurrency } from '@/utils/format';
 
 const initialFunding = {
   investor_id: '',
@@ -54,7 +55,6 @@ export default function InvestorPage() {
         <section className="rounded-[2rem] border border-slate-800/80 bg-slate-950/70 p-6 shadow-glow">
           <p className="text-xs uppercase tracking-[0.25em] text-sky-300/70">Investor marketplace</p>
           <h1 className="mt-3 text-3xl font-bold text-white text-display">Fund open loan requests</h1>
-          <p className="mt-2 text-sm leading-6 text-slate-400">Use this form to fund a loan from the investor account.</p>
 
           <form onSubmit={handleFund} className="mt-6 grid gap-4">
             <FormField label="Investor ID" id="investor_id" type="number" min="1" value={form.investor_id} onChange={handleChange('investor_id')} />
@@ -75,8 +75,8 @@ export default function InvestorPage() {
 
         <section>
           <div className="mb-4 grid gap-4 md:grid-cols-3">
-            <StatCard label="Open loans" value={loans.length} detail="Total Loans" accent="sky" />
-            <StatCard label="Min ticket" value="$5,000" detail="Suggested starting amount for funding" accent="emerald" />
+            <StatCard label="Loan records" value={loans.length} detail="Loans loaded from the database" accent="sky" />
+            <StatCard label="Min ticket" value={formatCurrency(5000)} detail="Suggested starting amount for funding" accent="emerald" />
             </div>
           <div className="grid gap-4 lg:grid-cols-2">
             {loans.map((loan) => (

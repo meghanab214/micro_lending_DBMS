@@ -33,7 +33,7 @@ export default function PortfolioPage() {
             <div>
               <p className="text-xs uppercase tracking-[0.25em] text-sky-300/70">Portfolio filter</p>
               <h1 className="mt-3 text-3xl font-bold text-white text-display">Investor holdings and returns</h1>
-              <p className="mt-2 text-sm leading-6 text-slate-400">Choose an investor ID to load live investment rows from the backend.</p>
+              <p className="mt-2 text-sm leading-6 text-slate-400">Choose an investor ID to load live investment rows.</p>
             </div>
             <div className="min-w-[220px]">
               <FormField label="Investor ID" id="portfolio_investor_id" type="number" min="1" value={investorId} onChange={(event) => setInvestorId(event.target.value)} />
@@ -43,7 +43,7 @@ export default function PortfolioPage() {
 
         <div className="grid gap-4 md:grid-cols-3">
           <StatCard label="Total invested" value={formatCurrency(totalInvested)} detail="Across current holdings" accent="sky" />
-          <StatCard label="Total returns" value={formatCurrency(totalReturns)} detail="Estimated collected repayments" accent="emerald" />
+          <StatCard label="Total returns" value={formatCurrency(totalReturns)} detail="Collected repayments" accent="emerald" />
           <StatCard label="Holdings" value={portfolio.length} detail="Active portfolio entries" accent="amber" />
         </div>
 

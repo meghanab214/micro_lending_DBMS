@@ -55,9 +55,6 @@ export default function RepaymentPage() {
         <section className="rounded-[2rem] border border-slate-800/80 bg-slate-950/70 p-6 shadow-glow">
           <p className="text-xs uppercase tracking-[0.25em] text-sky-300/70">Repayment tracker</p>
           <h1 className="mt-3 text-3xl font-bold text-white text-display">Pay EMI and track the schedule</h1>
-          <p className="mt-2 text-sm leading-6 text-slate-400">
-            The repayment endpoint expects <span className="text-sky-300">loan_id</span> and <span className="text-sky-300">amount</span> as query parameters.
-          </p>
 
           <form onSubmit={handlePay} className="mt-6 grid gap-4">
             <FormField label="Loan ID" id="repay_loan_id" type="number" min="1" value={form.loan_id} onChange={handleChange('loan_id')} />

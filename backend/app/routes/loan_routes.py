@@ -19,7 +19,7 @@ def list_loans():
             """
             SELECT id, borrower_id, amount, funded_amount, interest_rate, term_months, status, credit_score
             FROM loans
-            WHERE status IN ('pending', 'active') AND funded_amount < amount
+            ORDER BY id DESC
             """
         )
         rows = cur.fetchall()

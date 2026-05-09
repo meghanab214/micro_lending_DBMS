@@ -2,8 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/collections": "pages/collections.js",
+  "/investor": "pages/investor.js",
   "/kyc": "pages/kyc.js",
   "/analytics": "pages/analytics.js",
-  "/": "pages/index.js"
+  "/documents": "pages/documents.js"
 }
